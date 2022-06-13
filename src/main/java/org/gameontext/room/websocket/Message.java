@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
-package org.gameontext.room;
+package org.gameontext.room.websocket;
 
 import java.util.ArrayList;
 

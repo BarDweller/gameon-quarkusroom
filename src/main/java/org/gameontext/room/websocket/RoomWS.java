@@ -37,7 +37,6 @@ import org.eclipse.microprofile.metrics.annotation.Timed;
 import org.eclipse.microprofile.opentracing.Traced;
 import org.gameontext.room.Constants;
 import org.gameontext.room.Log;
-import org.gameontext.room.Message;
 import org.gameontext.room.engine.Room;
 
 /**
