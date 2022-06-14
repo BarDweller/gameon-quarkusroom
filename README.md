@@ -26,6 +26,7 @@ This app requires the following env vars to be set.
 |---------|---------|
 |SYSTEM_ID| The userid used to register the room with the Map service|
 |MAP_SERVICE_URL| The url for the map service|
+|MAP_HEALTH_SERVICE_URL| The url for the health check of the map service|
 |MAP_KEY| The key used for authentication with the Map service|
 |RECROOM_SERVICE_URL| The external url for this service (eg, http://myhost.com:port:/rooms )|
 
