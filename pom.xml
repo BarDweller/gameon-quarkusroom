@@ -44,14 +44,14 @@
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-rest-client</artifactId>
-    </dependency>    
-    <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-websockets</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-resteasy-jsonb</artifactId>
+      <artifactId>quarkus-rest-client-jackson</artifactId>
+    </dependency>          
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-websockets</artifactId>
     </dependency>
     <dependency>
         <groupId>io.quarkus</groupId>
@@ -72,12 +72,16 @@
     <dependency>
         <groupId>io.quarkus</groupId>
         <artifactId>quarkus-smallrye-metrics</artifactId>
-    </dependency>    
+    </dependency>
     <dependency>
-      <groupId>com.github.gameontext</groupId>
-      <artifactId>signed</artifactId>
-      <version>v1.0.4</version>
-    </dependency>     
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-undertow</artifactId>
+    </dependency>          
+    <dependency>
+      <groupId>com.github.bardweller</groupId>
+      <artifactId>gameon-signed-quarkus</artifactId>
+      <version>v2.0.2</version>
+    </dependency>    
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-junit5</artifactId>

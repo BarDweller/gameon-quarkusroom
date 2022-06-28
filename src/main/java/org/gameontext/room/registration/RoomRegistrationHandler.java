@@ -1,6 +1,7 @@
 package org.gameontext.room.registration;
 
 import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -17,6 +18,7 @@ import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
 import javax.json.JsonValue;
+import javax.json.JsonWriter;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -36,9 +38,12 @@ import org.gameontext.signed.SignedClientRequestFilter;
 
 import io.quarkus.runtime.Startup;
 import io.quarkus.scheduler.Scheduled;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 
 @Startup
 @Singleton
+@RegisterForReflection(ignoreNested = false, classNames = {"org.glassfish.json.JsonStringImpl", 
+                                                           "org.glassfish.json.JsonNumberImpl"})
 public class RoomRegistrationHandler {
 
     @ConfigProperty(name = "MAP_KEY", defaultValue = "x")
@@ -347,17 +352,30 @@ public class RoomRegistrationHandler {
         connInfo.add("target", getEndpointForRoom(room));
         registrationPayload.add("connectionDetails", connInfo.build());
 
+        JsonObject objectPayload = registrationPayload.build();
+        StringWriter stringWriter = new StringWriter();
+        try (JsonWriter jsonWriter = Json.createWriter(stringWriter);) {
+            jsonWriter.writeObject(objectPayload);
+        }catch(Exception e){
+            Log.log(Level.SEVERE, this, "Error writing json object : {0}", objectPayload);
+            // Unable to connect to map w/in reasonable time
+            return MAP_UNAVAILABLE;            
+        }
+        String jsonPayload = stringWriter.toString();
+
+        Log.log(Level.FINER,this,"Registration Payload: "+jsonPayload);
+
         Response response=null;
         try {
             switch(mode){
                 case REGISTER:{
                     Invocation.Builder builder = root.request(MediaType.APPLICATION_JSON);
-                    response = builder.post(Entity.json(registrationPayload.build()));
+                    response = builder.post(Entity.json(jsonPayload));
                     break;
                 }
                 case UPDATE:{
                     Invocation.Builder builder = root.path("{roomId}").resolveTemplate("roomId", roomId).request(MediaType.APPLICATION_JSON);
-                    response = builder.put(Entity.json(registrationPayload.build()));
+                    response = builder.put(Entity.json(jsonPayload));
                     break;
                 }
                 default:{
